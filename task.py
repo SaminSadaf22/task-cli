@@ -14,7 +14,10 @@ STORE = Path(__file__).with_name("tasks.json")
 def load():
     if not STORE.exists():
         return []
-    return json.loads(STORE.read_text(encoding="utf-8"))
+    try:
+        return json.loads(STORE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
 
 
 def save(tasks):
@@ -77,4 +80,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
